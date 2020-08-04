@@ -1,15 +1,15 @@
 FROM debian:buster-slim
 
 ARG GUROBI_USER
-ARG GUROBI_MAJOR_VERSION=9.0
-ARG GUROBI_VERSION=9.0.2
-ARG GUROBI_VERSION_TAG=902
+ARG GUROBI_MAJOR_VERSION0
+ARG GUROBI_VERSION
+ARG GUROBI_VERSION_TAG
 
 RUN apt-get update \
     && apt-get upgrade -y \
 	&& apt-get install -y wget 
 
-RUN groupadd -r ${GUROBI_USER} && useradd -r -g ${GUROBI_USER} ${GUROBI_USER} \
+RUN groupadd ${GUROBI_USER} && useradd -r -g ${GUROBI_USER} ${GUROBI_USER} \
 	&& mkdir /gurobi \
     && chown -R ${GUROBI_USER}:${GUROBI_USER} /gurobi 
 
