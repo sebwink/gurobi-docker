@@ -25,6 +25,7 @@ jobs:
       - name: Run tests
         run: |
           GUROBI_VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          GUROBI_VERSION=$(echo $GUROBI_VERSION | sed -e 's/^v//')
           GUROBI_MAJOR_VERSION=$(echo $GUROBI_VERSION | cut -d'.' -f 1-2)
           GUROBI_VERSION_TAG=$(echo $GUROBI_VERSION | sed 's/\.//g')
           GUROBI_USER=gurobi
@@ -33,7 +34,11 @@ jobs:
             docker-compose --file docker-compose.test.yml build
             docker-compose --file docker-compose.test.yml run sut
           else
-            docker build . --file Dockerfile
+            docker build . --build-arg GUROBI_USER=$GUROBI_USER \
+              --build-arg GUROBI_VERSION=$GUROBI_VERSION \
+              --build-arg GUROBI_MAJOR_VERSION=$GUROBI_MAJOR_VERSION \
+              --build-arg GUROBI_VERSION_TAG=$GUROBI_VERSION_TAG \
+              --file Dockerfile
           fi
 
   # Push image to GitHub Packages.
@@ -55,7 +60,12 @@ jobs:
           GUROBI_MAJOR_VERSION=$(echo $GUROBI_VERSION | cut -d'.' -f 1-2)
           GUROBI_VERSION_TAG=$(echo $GUROBI_VERSION | sed 's/\.//g')
           GUROBI_USER=gurobi
-          docker build . --file Dockerfile --tag $IMAGE_NAME
+
+          docker build . --build-arg GUROBI_USER=$GUROBI_USER \
+            --build-arg GUROBI_VERSION=$GUROBI_VERSION \
+            --build-arg GUROBI_MAJOR_VERSION=$GUROBI_MAJOR_VERSION \
+            --build-arg GUROBI_VERSION_TAG=$GUROBI_VERSION_TAG \
+            --file Dockerfile --tag $IMAGE_NAME
 
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
