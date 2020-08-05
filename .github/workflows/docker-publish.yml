@@ -68,7 +68,9 @@ jobs:
             --file Dockerfile --tag $IMAGE_NAME
 
       - name: Log into registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+          echo "${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}" | docker login docker.io -u sebwink --password-stdin
 
       - name: Push image
         run: |
@@ -77,18 +79,21 @@ jobs:
           GUROBI_MAJOR_VERSION=$(echo $GUROBI_VERSION | cut -d'.' -f 1-2)
           GUROBI_VERSION_TAG=$(echo $GUROBI_VERSION | sed 's/\.//g')
           
-          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
+          IMAGE_ID_GITHUB_PKG=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
+          IMAGE_ID_DOCKER_HUB=docker.io/sebwink/$IMAGE_NAME
 
           # Change all uppercase to lowercase
-          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+          IMAGE_ID_GITHUB_PKG=$(echo $IMAGE_ID_GITHUB_PKG | tr '[A-Z]' '[a-z]')
+          IMAGE_ID_DOCKER_HUB=$(echo $IMAGE_ID_DOCKER_HUB | tr '[A-Z]' '[a-z]')
 
-          echo IMAGE_ID=$IMAGE_ID
+          echo IMAGE_ID_GITHUB_PKG=$IMAGE_ID_GITHUB_PKG
+          echo IMAGE_ID_DOCKER_HUB=$IMAGE_ID_DOCKER_HUB
           echo GUROBI_VERSION=$GUROBI_VERSION
           echo GUROBI_MAJOR_VERSION=$GUROBI_MAJOR_VERSION
           echo GUROBI_VERSION_TAG=$GUROBI_VERSION_TAG
 
-          docker tag $IMAGE_NAME $IMAGE_ID:$GUROBI_VERSION
-          docker push $IMAGE_ID:$GUROBI_VERSION
+          docker tag $IMAGE_NAME $IMAGE_ID_GITHUB_PKG:$GUROBI_VERSION
+          docker push $IMAGE_ID_GITHUB_PKG:$GUROBI_VERSION
                     
-          docker tag $IMAGE_NAME $IMAGE_ID:$GUROBI_VERSION_TAG
-          docker push $IMAGE_ID:$GUROBI_VERSION_TAG
+          docker tag $IMAGE_NAME $IMAGE_ID_DOCKER_HUB:$GUROBI_VERSION 
+          docker push $IMAGE_ID_DOCKER_HUB:$GUROBI_VERSION
