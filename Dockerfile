@@ -12,7 +12,7 @@ RUN apt-get update && \
 RUN groupadd ${GUROBI_USER} && useradd -r -g ${GUROBI_USER} ${GUROBI_USER} && \
     mkdir /gurobi && \
     chown -R ${GUROBI_USER}:${GUROBI_USER} /gurobi && \
-    echo ${GUROBI_USER} /gurobi/user
+    echo ${GUROBI_USER} > /gurobi/user
 
 WORKDIR /gurobi
 USER ${GUROBI_USER}
