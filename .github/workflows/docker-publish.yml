@@ -107,10 +107,14 @@ jobs:
             docker push $IMAGE_ID_GITHUB_PKG:$GUROBI_VERSION
             docker tag $IMAGE_NAME $IMAGE_ID_GITHUB_PKG-$GUROBI_VERSION:$GIT_HASH
             docker push $IMAGE_ID_GITHUB_PKG-$GUROBI_VERSION:$GIT_HASH
+            docker tag $IMAGE_NAME $IMAGE_ID_GITHUB_PKG-$GUROBI_VERSION:latest
+            docker push $IMAGE_ID_GITHUB_PKG-$GUROBI_VERSION:latest
                     
             docker tag $IMAGE_NAME $IMAGE_ID_DOCKER_HUB:$GUROBI_VERSION 
             docker push $IMAGE_ID_DOCKER_HUB:$GUROBI_VERSION
             docker tag $IMAGE_NAME $IMAGE_ID_DOCKER_HUB-$GUROBI_VERSION:$GIT_HASH
             docker push $IMAGE_ID_DOCKER_HUB-$GUROBI_VERSION:$GIT_HASH
+            docker tag $IMAGE_NAME $IMAGE_ID_DOCKER_HUB-$GUROBI_VERSION:latest
+            docker push $IMAGE_ID_DOCKER_HUB-$GUROBI_VERSION:latest
             
           done
