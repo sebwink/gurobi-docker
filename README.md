@@ -7,7 +7,7 @@ This repository defines, build and publishes base images for the [Gurobi](https:
 This repository builds the following images:
 
 * *sebwink/gurobi* : Images always correspond to the master branch of this repository and contain a specific Gurobi version specified via the image tag. E.g. to use Gurobi version 9.0.2 with the image corresponding to the current master, the image to use would be *sebwink/gurobi:9.0.2*
-* *sebwink/gurobi-<version>* : Images for a particular Gurobi version where the image tags represent git history. The *latest* tag will correspond to the current
+* *sebwink/gurobi-\<version\>* : Images for a particular Gurobi version where the image tags represent git history. The *latest* tag will correspond to the current
   master and thus *sebwink/gurobi-<version>:latest* is equivalent to *sebwink/gurobi:<version>*. Images based on other git commits are accessible by specifiying the git hash as image tag: *sebwink/gurobi-<version>:<git-hash>* to get the image with the specified Gurobi version build from the specified git hash.
   
 Which Gurobi versions are build is specified via the GUROBI_VERSIONS. In case you need a specific Gurobi versions pull requests specifying the particular
