@@ -1,5 +1,7 @@
 # Gurobi Docker images
 
+![Docker](https://github.com/sebwink/gurobi-docker/workflows/Docker/badge.svg)
+
 This repository defines, build and publishes base images for the [Gurobi](https://www.gurobi.com/de/) mathematical programming solver.
 
 ## Versioning
